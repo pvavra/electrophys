@@ -58,17 +58,15 @@ for iTetrode = 1%:nTetrodes
     
     % for the tone period:
     subplot(323)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'tone', 'all', 1)
+    PlotFiringRateChange(inputs, spikes(iTetrode), 'baseline', subsetOfUnits, 0)
 
     subplot(325)
     PlotFiringRateChange(inputs, spikes(iTetrode), 'tone', 'all', 0)
 
     % and for the shock:
     subplot(326)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'shock', 'all', 1)
+    PlotFiringRateChange(inputs, spikes(iTetrode), 'after-shock', 'all', 1)
     
-    
-
 end
 
 

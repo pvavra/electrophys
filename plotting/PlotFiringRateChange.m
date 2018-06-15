@@ -1,6 +1,7 @@
 function PlotFiringRateChange(inputs, spikes, event_type, whichUnits, average)
 % PlotFiringRateChange for a event-of-interest, plot the change in firing
-% rate, in combarison to baseline
+% rate, in combarison to baseline. If 'baseline' is requested, it shows the
+% simply the baseline firing rate
 % 
 % Input:
 %      inputs      ... structure, contains info on input timestamps as
@@ -72,11 +73,18 @@ for iEvent = length(event_starts):-1:1
     nSpikesBaseline(iEvent,: ) = nSpikesBaseline(iEvent,:) ./ baseline_durations(iEvent);
 end
 
-firingRateChange = nSpikesEvent - nSpikesBaseline;
+if strcmp(event_type, 'baseline')
+    % if only baseline requested, set firing rate to baseline
+    firingRate = nSpikesBaseline;
+    yLabelString = 'Firing Rate [Hz]'; % define correct y-axis label
+else
+    firingRate = nSpikesEvent - nSpikesBaseline;
+    yLabelString = 'Firing Rate Change [Hz]'; % define correct y-axis label
+end
 
 if average % calculate mean across traces only if required
-    meanFiringRateChange = mean(firingRateChange,1);
-    semFiringRateChange = std(firingRateChange,0,1) ./ sqrt(length(event_starts));
+    meanFiringRate = mean(firingRate,1);
+    semFiringRate = std(firingRate,0,1) ./ sqrt(length(event_starts));
 end
 
 
@@ -87,18 +95,18 @@ hold off
 
 
 if average
-    barwitherr(semFiringRateChange, meanFiringRateChange)
+    barwitherr(semFiringRate, meanFiringRate)
     xlabel('Cell ID')
     xticklabels(cellstr(num2str(unitsToPick')))
     title(sprintf('Event: %s', event_type))
 else
-    bar(firingRateChange)
+    bar(firingRate)
     xlabel('Event Occurrence')
     legend(cellfun(@(x) sprintf('Cell ID %s',x), cellstr(num2str(unitsToPick')), 'UniformOutput', 0),...
         'Location','northwest')
 end
 
-ylabel('Firing Rate Change [Hz]')
+ylabel(yLabelString)
 if isnumeric(whichUnits)
     title(sprintf('Event: %s - Selected Cells: %s',event_type, mat2str(unitsToPick)))
 else

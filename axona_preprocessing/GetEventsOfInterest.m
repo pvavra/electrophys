@@ -45,6 +45,19 @@ switch event_type
         onsets = tone_timestamps + tone_durations + 20;
         durations = ones(size(onsets));
         
+    case 'after-shock'
+        % define the "after-shock" as 20s after shock has ended.
+        %
+        % Note: for now, we need to reference tone, as no input-timestamp
+        % for shock exists yet
+        
+        target_events = strcmp(inputs.labels,tone_label);
+        tone_timestamps = inputs.timestamps_onset(target_events);
+        tone_durations = inputs.durations(target_events);
+        
+        onsets = tone_timestamps + tone_durations + 21; % 20s tone + 1s shock
+        durations = ones(size(onsets)) * 20; % set duration to 20s
+        
     case 'trace'
         % trace period is defined as 'after tone and before shock' 
         % 
