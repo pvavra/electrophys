@@ -1,7 +1,7 @@
 addpath('../axona_io')
 addpath('axona_preprocessing')
 addpath('libs/barwitherr') % for plotting errorbars on top of bar-plots
-
+addpath('plotting')
 
 folderData = '/home/petvav/ownCloud/Documents/projects/fred/matlab_scripts_for_fred/data';
 % how are the files called - provide the part which is shared among them
@@ -66,6 +66,8 @@ for iTetrode = 1%:nTetrodes
     % and for the shock:
     subplot(326)
     PlotFiringRateChange(inputs, spikes(iTetrode), 'shock', 'all', 1)
+    
+    
 
 end
 
