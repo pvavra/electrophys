@@ -25,7 +25,7 @@ eeg_filename2 = sprintf('%s/%s.egf', folderData, filenameDataCommon);
 [header2, eeg2] = read_eeg_file(eeg_filename2);
 
 tmin = 0; % in seconds
-tmax = 100; 
+tmax = 400; 
 tmax_zoom = 5; % in seconds
 
 smooth_scale = 25; % in Hz
@@ -84,14 +84,26 @@ range_zoom = (1+tmin*currentSamplingRate) : (1+tmax_zoom*currentSamplingRate);
 t = tmin:1/currentSamplingRate:tmax;
 t_zoom = tmin:1/currentSamplingRate:tmax_zoom;
 
-subplot(311)
+subplot(411)
 plot(t,eeg2(range))
 
-subplot(312)
+subplot(412)
 plot(t_zoom,eeg2(range_zoom))
 
-subplot(313)
+subplot(413)
 plot(t_zoom,smoothdata(eeg2(range_zoom), 'movmean', round(currentSamplingRate/smooth_scale)),'r')
+
+subplot(414)
+hold off
+histogram(eeg2,-(2^16/2+10):100:(2^16/2+10))
+hold on
+% add overlays for outside of the valid range
+colorOutside = 'r';
+yl = ylim; yStart = yl(1); yEnd = yl(2);
+xl = xlim; xLeftEdge = xl(1); xRightEdge = xl(2);
+% left patch
+patch([xLeftEdge -2^16/2 -2^16/2 xLeftEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
+patch([xRightEdge 2^16/2 2^16/2 xRightEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
 
 %% 
 figure(3)
