@@ -1,4 +1,4 @@
-function PlotHistogram(inputs, spikes, whichUnits, binSize)
+function ax = PlotHistogram(inputs, spikes, whichUnits, binSize)
 % PlotHistogram shows the average firing rate as a function of time
 %
 % In a sense, this is simply the average of a rasterplot, across units.
@@ -14,6 +14,9 @@ function PlotHistogram(inputs, spikes, whichUnits, binSize)
 % 
 %      binSize     ... Integer. Indicates the desired bin-size in seconds.
 % 
+% Output:
+%      ax          ... axes-handle of plot
+%
 % see also:
 % LOADDATA
 %
@@ -88,6 +91,9 @@ if isnumeric(whichUnits)
 else
     title(sprintf('Selected cells: %s  (binSize = %g s)',whichUnits,binSize))
 end
+
+ax = gca;
+
 
 end
 

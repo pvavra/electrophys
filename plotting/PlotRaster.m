@@ -1,4 +1,4 @@
-function PlotRaster(inputs, spikes,whichUnits)
+function ax = PlotRaster(inputs, spikes,whichUnits)
 % PlotRatser generates a simple raster-plot of the spiking activity,
 % overlaying the tone and shock periods of the task
 %
@@ -10,6 +10,9 @@ function PlotRaster(inputs, spikes,whichUnits)
 %      whichUnits  ... String/Array. Either 'all' or an array of integers.
 %                      Indicates units for which units the plot will be
 %                      generated.
+%
+% Output:
+%       ax         ... axes-handle object of current plot
 %
 % see also:
 % LOADDATA
@@ -75,3 +78,5 @@ xlabel('Time [s]')
 ylabel('Cell ID')
 yticks(1:length(unitsToPick))
 yticklabels(unitsToPick) % pick correct unit-label based on which units have been selected for plotting
+
+ax = gca;
