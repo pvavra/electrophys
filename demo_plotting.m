@@ -28,44 +28,51 @@ for iTetrode = 1%:nTetrodes
     %----------------------------------------------------------------------
     figure(iTetrode)
     set(gcf,'Name', sprintf('Rasterplots & Histograms- Tetrode %i', iTetrode))
-    subplot(221)
+    subplot(321)
     PlotRaster(inputs, spikes(iTetrode), 'all');
         
-    subplot(223)
+    subplot(323)
     PlotRaster(inputs, spikes(iTetrode),subsetOfUnits );
     
-    subplot(222)
+    subplot(322)
     PlotHistogram(inputs,spikes(iTetrode), 'all', 1 );
     
-    subplot(224)
+    subplot(324)
     PlotHistogram(inputs,spikes(iTetrode), subsetOfUnits, 1 );
     
-    
-    % Mean Firing Rate Changes
-    %----------------------------------------------------------------------
-    figure(iTetrode + nTetrodes)
-    set(gcf,'Name', sprintf('Firing Rate Change - Tetrode %i', iTetrode))
-    
-    % for the trace period:
-    subplot(321)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', 'all')
-    
-    subplot(322)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', subsetOfUnits, 0)
-
-    subplot(324)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', subsetOfUnits, 1) % average
-    
-    % for the tone period:
-    subplot(323)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'baseline', subsetOfUnits, 0)
-
     subplot(325)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'tone', 'all', 0)
-
-    % and for the shock:
+    PlotRasterTrials(inputs, spikes(iTetrode), 3);
+    
     subplot(326)
-    PlotFiringRateChange(inputs, spikes(iTetrode), 'after-shock', 'all', 1)
+    PlotHistrogramTrials(inputs, spikes(iTetrode), 3, 1);
+    
+    
+    
+%     % Mean Firing Rate Changes
+%     %----------------------------------------------------------------------
+%     figure(iTetrode + nTetrodes)
+%     set(gcf,'Name', sprintf('Firing Rate Change - Tetrode %i', iTetrode))
+%     
+%     % for the trace period:
+%     subplot(321)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', 'all')
+%     
+%     subplot(322)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', subsetOfUnits, 0)
+% 
+%     subplot(324)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'trace', subsetOfUnits, 1) % average
+%     
+%     % for the tone period:
+%     subplot(323)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'baseline', subsetOfUnits, 0)
+% 
+%     subplot(325)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'tone', 'all', 0)
+% 
+%     % and for the shock:
+%     subplot(326)
+%     PlotFiringRateChange(inputs, spikes(iTetrode), 'after-shock', 'all', 1)
     
 end
 
