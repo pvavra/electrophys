@@ -28,7 +28,7 @@ tmin = 0; % in seconds
 tmax = 100; 
 tmax_zoom = 5; % in seconds
 
-smooth_scale = 10; % in Hz
+smooth_scale = 25; % in Hz
 
 
 %%
@@ -41,15 +41,36 @@ t_zoom = tmin:1/currentSamplingRate:tmax_zoom;
 
 subplot(411)
 plot(t,eeg(range),'.-')
+title('eeg file')
 
 subplot(412)
-plot(t_zoom,eeg(range_zoom),'.-')
+windowSize = round(currentSamplingRate/smooth_scale);
+hold off
+plot(t_zoom,eeg(range_zoom),'.-', 'DisplayName','data')
+hold on
+plot(t_zoom,smoothdata(eeg(range_zoom), 'movmean', windowSize),'.-r', 'DisplayName',sprintf('moving mean (windowSize = %g)',windowSize));
+title('eeg file - zoomed in')
+legend
 
 subplot(413)
-plot(t_zoom,smoothdata(eeg(range_zoom), 'movmean', round(currentSamplingRate/smooth_scale)),'.-r')
+plot(t_zoom,smoothdata(eeg(range_zoom), 'movmean', windowSize),'.-r', 'DisplayName',sprintf('moving mean (windowSize = %g)',windowSize));
+title('eeg file - zoom in - moving average only')
+
 
 subplot(414)
-histogram(eeg(range), 100)
+hold off
+histogram(eeg(range), -130:5:130)
+hold on
+% add overlays for outside of the valid range
+colorOutside = 'r';
+yl = ylim; yStart = yl(1); yEnd = yl(2);
+xl = xlim; xLeftEdge = xl(1); xRightEdge = xl(2);
+% left patch
+patch([xLeftEdge -128 -128 xLeftEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
+patch([xRightEdge 128 128 xRightEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
+
+title('values in eeg-file')
+
 
 
 % figure two - higher sampling rate
