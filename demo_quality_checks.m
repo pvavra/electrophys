@@ -3,6 +3,7 @@ addpath('../axona_io')
 addpath('axona_preprocessing')
 addpath('libs/barwitherr') % for plotting errorbars on top of bar-plots
 addpath('plotting')
+addpath('quality_checks')
 
 
 % define where data is
@@ -13,9 +14,6 @@ nTetrodes = 4;
 % load eeg data
 eeg_filename = sprintf('%s/%s.eeg', folderData, filenameDataCommon);
 [header, eeg] = read_eeg_file(eeg_filename);
-
-
-
 
 % run quality control check
 figure(1)
