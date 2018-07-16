@@ -53,7 +53,6 @@ hold on
 plot(t_zoom,smoothdata(eeg(range_zoom), 'movmean', windowSize),'.-r', 'DisplayName',sprintf('moving mean (windowSize = %g)',windowSize));
 title('eeg file - zoomed in')
 legend
-
 subplot(413)
 plot(t_zoom,smoothdata(eeg(range_zoom), 'movmean', windowSize),'.-r', 'DisplayName',sprintf('moving mean (windowSize = %g)',windowSize));
 title('eeg file - zoom in - moving average only')
