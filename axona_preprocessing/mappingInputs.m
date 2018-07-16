@@ -25,8 +25,11 @@ switch byte_code
     case 1024
         label = 'on: infrared tracking';
         
+    case 4096
+        label = 'on: shock';
+        
     otherwise
-        label = 'unknown byte-code';
+        label = sprintf('unknown byte-code: %i', byte_code);
 end
 
 
