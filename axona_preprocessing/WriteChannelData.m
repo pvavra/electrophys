@@ -1,4 +1,10 @@
 function packets_matrix = WriteChannelData(filename, X_new, packets_matrix)
+% add .bin extension if it is missing
+[~,~,ext] = fileparts(filename);
+if ~strcmp(ext, '.bin')
+    filename = sprintf('%s.bin',filename);
+end
+
 assert(~exist(filename,'file'), 'file %s already exists. Choose another filename', filename);
 
 GetDacqConstants;

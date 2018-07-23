@@ -25,6 +25,12 @@ function [data_matrix, fileStats, packets_matrix] = GetChannelData(filename)
 %  WRITECHANNELDATA
 
 
+% if `filename` does not end in `.bin`, append that to `filename`
+[~, ~, ext ] = fileparts(filename); 
+if ~strcmp(ext, '.bin') 
+    filename = sprintf('%s.bin', filename); 
+end
+
 assert(exist(filename,'file') == 2, 'file %s does not exist', filename);
 
 GetDacqConstants;
