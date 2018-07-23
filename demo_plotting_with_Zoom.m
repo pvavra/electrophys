@@ -1,4 +1,4 @@
-addpath('../axona_io')
+addpath('axona_io')
 addpath('axona_preprocessing')
 addpath('libs/barwitherr') % for plotting errorbars on top of bar-plots
 addpath('plotting')

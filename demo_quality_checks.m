@@ -1,5 +1,5 @@
 % add required libraries
-addpath('../axona_io')
+addpath('axona_io')
 addpath('axona_preprocessing')
 addpath('plotting')
 addpath('quality_checks')

@@ -8,7 +8,7 @@
 
 %% expand path
 addpath('axona_preprocessing')
-addpath('../axona_io')
+addpath('axona_io')
 
 
 %% Setup
