@@ -5,9 +5,14 @@ addpath('plotting')
 addpath('quality_checks')
 addpath('lfp')
 
-% define where data is
-folderData = '/data/fred/Dataset Mouse 304/Converted no Ref';
-filenameDataCommon = '304D1TFC';
+% % define where data is
+% folderData = '/data/fred/Dataset Mouse 304/Converted no Ref';
+% filenameDataCommon = '304D1TFC';
+
+folderData = '/data/fred/test_data/Converted';
+filenameDataCommon = '000D1TFC';
+
+
 nTetrodes = 4;
 
 
