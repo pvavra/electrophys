@@ -3,6 +3,7 @@
 %% Setup
 % expand the path
 addpath('axona_io')
+addpath('plotting')
 
 folderData = '/data/fred_old/Dataset Mouse 304/Converted no Ref';
 filenameDataCommon = '304D1TFC';

@@ -9,7 +9,7 @@ addpath('lfp')
 % folderData = '/data/fred/Dataset Mouse 304/Converted no Ref';
 % filenameDataCommon = '304D1TFC';
 
-folderData = '/data/fred/test_data/Converted';
+folderData = '/data/fred_old/test_data/Converted';
 filenameDataCommon = '000D1TFC';
 
 

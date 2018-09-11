@@ -3,11 +3,11 @@ function inputs = LoadInputs(filename)
 
 % load input data - same for all tetrode
 %--------------------------------------------------------------------------
-% First, the input file 
+% First, the input file
 
 % add `.inp` ending to `filename`, if it is not there
-[~,~,ext] = fileparts(filename); 
-if ~strcmp(ext, '.bin')
+[~,~,ext] = fileparts(filename);
+if ~strcmp(ext, '.inp')
     filename = sprintf('%s.inp', filename);
 end
 

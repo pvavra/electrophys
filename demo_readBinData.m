@@ -3,7 +3,7 @@ addpath('lfp')
 
 %% load data
 % dataFilename = '/data/fred/Dataset Mouse 304/Raw/304D1TFC.bin'; % 9GB
-dataFilename = '/data/fred/pilot_data/Gain 6000 Direct Avg 24kHz 1005um/1556.bin'; % <1GB
+dataFilename = '/data/fred_old/pilot_data/1556.bin'; % <1GB
 
 [data_matrix, fileStats, packets_matrix] = GetChannelData(dataFilename);
 

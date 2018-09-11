@@ -3,7 +3,7 @@ addpath('lfp')
 
 %% load data
 % dataFilename = '/data/fred/Dataset Mouse 304/Raw/304D1TFC.bin'; % 9GB
-dataFilename = '/data/fred/pilot_data/Gain 6000 Direct Avg 24kHz 1005um/1556.bin'; % <1GB
+dataFilename = '/data/fred_old/pilot_data/1556.bin'; % <1GB
 
 
 fprintf('loading data\n')
@@ -23,8 +23,8 @@ references = {...
     };
 
 filenames_output = {...
-    '/data/fred/Dataset Mouse 304/Raw/304D1TFC_ReferencedToMean.bin'; ...
-    '/data/fred/Dataset Mouse 304/Raw/304D1TFC_ReferencedToFirst.bin' ...
+    '/data/fred_old/pilot_data/1556_ReferencedToMean.bin'; ...
+    '/data/fred_old/pilot_data/1556_ReferencedToFirst.bin' ...
     };
 
 %% reference signal
@@ -37,7 +37,7 @@ for iReferencing = 1:length(references)
     
     fprintf('writing referenced data to file\n');
     tic
-    WriteChannelData(filenames_output{iReferencing} , -ref, packets_matrix);
+    WriteChannelData(filenames_output{iReferencing} , ref, packets_matrix);
     toc
 end
 
