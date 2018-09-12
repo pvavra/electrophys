@@ -7,6 +7,15 @@ else
     figure
 end
 
+if ~exist('label_x','var')
+    label_x = 'x';
+end
+
+if ~exist('label_y','var')
+    label_y = 'y';
+end
+
+
 subplot(221)
 plot(x,y,'.')
 title('scatter plot of positions')
