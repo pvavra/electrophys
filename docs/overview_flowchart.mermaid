@@ -1,0 +1,33 @@
+graph TB
+
+subgraph in DACQ
+A[save recording  as .bin] -->  B[Convert to .egf, .pos & .inp]
+end
+
+subgraph in MATLAB
+B --> C
+A --> C[remove shock] 
+C --> D[refernce all channels] 
+D --> D2[save as new .bin file] 
+end
+
+subgraph in DACQ
+D2 -->  E["detect spikes by converting to Unit data (.1- .32)"]
+end
+
+subgraph in TINT
+E --> F[sort spikes]
+F -->  G[Spike Analysis - part 1]
+end
+
+subgraph in MATLAB
+B --> H[Analyse LFPs]
+G --> G2[Spike Analysis - part 2]
+H -->  I[Analyse Spike & LFPs]
+G2 -->  I
+end
+
+subgraph in MATLAB
+A --> QC[Quality Checks]
+B --> QC
+end
