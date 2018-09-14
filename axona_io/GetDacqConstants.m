@@ -1,4 +1,5 @@
-% CONSTANTS BASED ON DacqUSBFileFormat.pdf
+% CONSTANTS BASED ON DacqUSBFileFormat.pdf for the .bin file-format (aka
+% "raw" format)
 SAMPLING_FREQUENCY = 48000; % in Hz
 NR_OF_BYTES_PER_PACKET = 432;
 NR_OF_BYTES_FOR_HEADER = 32;

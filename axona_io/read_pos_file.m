@@ -1,4 +1,36 @@
 function [positions, header] = read_pos_file(filename, convertMissingPositionToNaN)
+% [positions, header] = read_pos_file(filename,
+% convertMissingPositionToNaN) reads an AXONA position file (.pos) and
+% returns the positions and a header
+% 
+% IMPORTANT LIMITATION: 
+%     The DACQ File Format manual describes two different modes for storing
+%     position data, but only the 't,x1,y1,x2,y2,numpix1,numpix2' format is
+%     implemented here. An error will be thrown if any other fileformat is
+%     present in the file.
+% 
+% Input:
+% 
+%      filename                    ... String. The filename of the
+%                                      position-file. The file-ending
+%                                      (i.e. ".pos") will be automatically
+%                                      added, if necessary.
+% 
+%      convertMissingPositionToNaN ... Boolean. Whether to replace missing
+%                                      position values (1023) with NaNs.
+%                                      Default: false.
+% 
+% Outputs:
+% 
+%       positions                  ... Struct with fields: t, x1, y1, x2, 
+%                                      y2,numpix1,numpix2, totalpix (see
+%                                      DACQ File Format documentation for
+%                                      their meaning). 
+% 
+%       header                     ... Struct. Header information from the
+%                                      header-portion of the .pos file.
+% 
+%
 
 % AXONA-related constants
 %--------------------------------------------------------------------------
@@ -33,7 +65,7 @@ if f == -1
 end
 
 % first, identify where header and data sections are
-%--------------------------------------------------------------------------
+%------------------------------------------------Axona --------------------------
 fileContent = fread(f, Inf, 'uint8=>char')'; % read binary file as if it was a text-file
 startData = strfind(fileContent, DATA_START_TOKEN);
 endData = strfind(fileContent, DATA_END_TOKEN);
@@ -106,6 +138,5 @@ for i=1:length(fields)
     positions = setfield(positions, fields{i}, double(newValue));
 
 end   
-
     
 end

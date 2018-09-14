@@ -1,21 +1,23 @@
-addpath('axona_preprocessing')
-addpath('lfp')
+addpath('axona_io')
 
 %% load data
 % dataFilename = '/data/fred/Dataset Mouse 304/Raw/304D1TFC.bin'; % 9GB
 dataFilename = '/data/fred_old/pilot_data/1556.bin'; % <1GB
 
-[data_matrix, fileStats, packets_matrix] = GetChannelData(dataFilename);
+[data_matrix, fileStats, packets_matrix] = read_bin_file(dataFilename);
 
 
 %% get all non-empty channels
 tic
-emptyChannels = all(data_matrix(:,10:end) == 0,2); % for some reason, even unconnected channels have non-zero data for the first couple of samples
+% for some reason, even unconnected channels have non-zero data for the
+% first couple of samples
+emptyChannels = all(data_matrix(:,10:end) == 0,2); 
 toc
 
 usedChannels = 1:64; usedChannels = usedChannels(~emptyChannels);
 
-%% downsample and subset data for inspection -- try to avoid 'freezing' figures (due too many datapoints)
+%% downsample and subset data for inspection
+% try to avoid 'freezing' figures (due too many datapoints)
 Fs = 48000;
 downsamplingFactor = 192; % will give 250Hz
 
@@ -24,7 +26,8 @@ tmax = 10; % in seconds
 indicesSubset = (tmin*Fs:tmax*Fs) +1; %
 
 tic
-result = downsample(data_matrix(usedChannels,indicesSubset)', downsamplingFactor )'; % result is now matching usedChannels
+% result is now matching usedChannels
+result = downsample(data_matrix(usedChannels,indicesSubset)', downsamplingFactor )'; 
 toc
 
 time = tmin:downsamplingFactor/Fs:tmax;
@@ -43,7 +46,7 @@ yticklabels(num2str(usedChannels'))
 title(sprintf('timeseries of all used channels (subset for time from %g to %g seconds)',tmin, tmax))
 
 %% plot each channel individually
-for iChannel = 1:length(usedChannels)
+for iChannel = 1%:length(usedChannels)
     figure(iChannel);
     
     channel = usedChannels(iChannel);

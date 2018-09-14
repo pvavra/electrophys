@@ -1,3 +1,9 @@
+% This script demonstrates how to plot info on the LFP data 
+
+
+%% Setup & Initialization
+%==========================================================================
+
 addpath('axona_io')
 addpath('axona_preprocessing')
 addpath('libs/barwitherr') % for plotting errorbars on top of bar-plots
@@ -11,13 +17,11 @@ addpath('lfp')
 % folderData = '/data/fred/Conditioning Data Full with inp/304D1TFC Converted Spikes EEG';
 % filenameDataCommon = '304D1TFC Converted Spikes';
 
-folderData = '/data/fred/Dataset Mouse 304/Converted no Ref';
+folderData = '/data/fred_old/Dataset Mouse 304/Converted no Ref';
 filenameDataCommon = '304D1TFC';
-
 
 % number of channels, i.e. files ending in .1, .2, etc., up-to nChannels
 nTetrodes = 4;
-
 
 eeg_filename = sprintf('%s/%s.eeg', folderData, filenameDataCommon);
 [header, eeg] = read_eeg_file(eeg_filename);
@@ -32,7 +36,19 @@ tmax_zoom = 5; % in seconds
 smooth_scale = 25; % in Hz
 
 
-%% figure 1: .eeg file 
+% Specify whether to save figures to file. If yes, the next variables need
+% to be set as well. NOTE: any existing images will be overwritten without
+% a warning!
+saveFigures = true; % yes/no on whether to save figures to file.
+% if figures should be saved, specify the folder where to put them
+folderOutput = '/data/fred_old/Dataset Mouse 304/results';
+% define which resolution (dot-per-inch) to use. 300 is good for on-screen
+% viewing, while 600 is good for (most) publications
+dpi = 300;
+
+
+%% figure 1: .eeg file
+%==========================================================================
 figure(1)
 set(gcf, 'Name','.eeg File (250Hz sampling frequency)')
 currentSamplingRate = header.sample_rate;
@@ -69,12 +85,17 @@ xl = xlim; xLeftEdge = xl(1); xRightEdge = xl(2);
 % left patch
 patch([xLeftEdge -128 -128 xLeftEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
 patch([xRightEdge 128 128 xRightEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
-
 title('values in eeg-file')
 
+% save figure to file
+if saveFigures
+    filename = sprintf('%s/eeg_overview', folderOutput);
+    ExportFigure(filename, dpi);
+end
 
 
 %% figure 2: .egf file
+%==========================================================================
 figure(2)
 set(gcf, 'Name','.eeg File (4.8kHz sampling frequency)')
 
@@ -105,7 +126,15 @@ xl = xlim; xLeftEdge = xl(1); xRightEdge = xl(2);
 patch([xLeftEdge -2^16/2 -2^16/2 xLeftEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
 patch([xRightEdge 2^16/2 2^16/2 xRightEdge], [yStart yStart yEnd yEnd], colorOutside, 'FaceAlpha',.5,'EdgeColor',colorOutside);
 
+% save figure to file
+if saveFigures
+    filename = sprintf('%s/egf_overview', folderOutput);
+    ExportFigure(filename, dpi);
+end
+
+
 %% figure 3: overlap of the two signal
+%==========================================================================
 figure(3)
 set(gcf, 'Name','overlap of .eeg and .egf data (first couple of seconds)')
 hold off
@@ -128,8 +157,15 @@ eeg_smoothed2 = smoothdata(eeg_large(range_zoom), 'movmean', round(currentSampli
 eeg_smoothed2 = eeg_smoothed2 ./ std(eeg_smoothed2);
 plot(t_zoom,eeg_smoothed2,'r')
 
-%% figure 4: power spectra
+% save figure to file
+if saveFigures
+    filename = sprintf('%s/comparison_eeg_egf', folderOutput);
+    ExportFigure(filename, dpi);
+end
 
+
+%% figure 4: power spectra
+%==========================================================================
 L = length(eeg);
 spectrum = PowerSpectrum(eeg);
 frequencies = header.sample_rate * (0:(L/2))/L; % infer which frequencies are possible
@@ -175,7 +211,16 @@ indices_selection = frequencies_large > freq_boundaries(1) & frequencies_large <
 plot(frequencies_large(indices_selection), spectrum_large(indices_selection)/max(spectrum_large(indices_selection)), 'DisplayName','.egf data')
 title(sprintf('Power spectrum for range %g to %g Hz - .egf file', freq_boundaries(1), freq_boundaries(2)))
 
+% save figure to file
+if saveFigures
+    filename = sprintf('%s/powerspectra_fft', folderOutput);
+    ExportFigure(filename, dpi);
+end
+
+
 %% calculate time-frequency spectra for fig 5
+%==========================================================================
+
 % using wavelet convolution
 frequecies_of_interest = 1:100;
 nCycles_in_wavelet = 20;
@@ -186,7 +231,10 @@ tic
 [tf_power_large, tf_phase_large] = TF_wavelets(eeg_large, frequecies_of_interest, nCycles_in_wavelet, header_large.sample_rate);
 toc
 
+
 %% figure 5: plot time-freuqncy spectra
+%==========================================================================
+
 figure(5)
 subplot(311)
 hold off
@@ -221,3 +269,8 @@ set(gca, 'XTickLabel', num2str(timeTicks'))
 ylabel('Power [normalized to mean]')
 title('power spectrum of .eeg file - on log scale')
 
+% save figure to file
+if saveFigures
+    filename = sprintf('%s/timefrequency_wavelets', folderOutput);
+    ExportFigure(filename, dpi);
+end
